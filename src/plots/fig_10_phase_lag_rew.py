@@ -71,8 +71,8 @@ sc = ax.scatter(
     c=np.log10(Ri_mean[time_mask]),
     marker="o",
     cmap="copper",
-    vmin=-2,
-    vmax=2,
+    vmin=-2.5,
+    vmax=2.5,
 )
 
 cb = fig.colorbar(sc, ax=ax)

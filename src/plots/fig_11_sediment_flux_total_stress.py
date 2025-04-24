@@ -99,7 +99,7 @@ dudt = data["dudt_wave"] / data["ubr"].reshape(1, -1, 1)
 dudt_mean = np.nanmean(dudt[:, negidx, :][zavg_u, :, :], axis=(0, 1))
 dudt_mean_plot = np.concatenate((dudt_mean, [dudt_mean[0]]))
 
-tau_wave_max = np.nanmax(data["tau_wc_maj"][zavg_tau, :, :][:, negidx, :], axis=(0, 2))
+tau_wave_max = np.nanmax(np.abs(data["tau_wc_maj"][zavg_tau, :, :][:, negidx, :]), axis=(0, 2))
 tau_mean_vec = np.nanmean(
     data["tau_wc_maj"][zavg_tau, :, :][:, negidx, :] / tau_wave_max.reshape(1, -1, 1), axis=(0, 1)
 )

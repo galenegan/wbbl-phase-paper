@@ -51,7 +51,6 @@ fw_rogers = np.exp(a1 * ab_kb_lin**a2 + a3)
 fw_rogers[ab_kb_lin < 0.0369] = 50
 rogers_error = np.sqrt(np.nanmean((np.exp(a1 * ab_kb[mask] ** a2 + a3) - fw_vec[mask]) ** 2))
 
-
 # %% Jonsson
 def jfunc(fw, ab_kb):
     return 1 / (4 * np.sqrt(fw)) + np.log10(1 / (4 * np.sqrt(fw))) + 0.08 - np.log10(ab_kb)
@@ -106,7 +105,7 @@ colors = ["#6929c4", "#1192e8", "#005d5d", "#9f1853", "#fa4d56", "#570408", "#19
 fig, ax = plt.subplots()
 ax.loglog(ab_kb[mask], fw_vec[mask], "o", color="0.5", alpha=0.5)
 ax.loglog(ab_kb_lin, fw_nielsen, "-", linewidth=2, color=colors[0], label=f"Nielsen 1992, RMSE = {nielsen_error:.2f}")
-ax.loglog(ab_kb_lin, fw_rogers, ":", linewidth=4, color=colors[1], label=f"Rogers 2015, RMSE = {rogers_error:.2f}")
+ax.loglog(ab_kb_lin, fw_rogers, ":", linewidth=4, color=colors[1], label=f"Rogers 2016, RMSE = {rogers_error:.2f}")
 ax.loglog(ab_kb_lin, fw_jonsson, "--", linewidth=3, color=colors[4], label=f"Jonsson 1966, RMSE = {jonsson_error:.2f}")
 ax.loglog(ab_kb_lin, fw_gm, "-.", linewidth=4, color=colors[3], label=f"GM 1979, RMSE = {gm_error:.2f}")
 ax.loglog(
@@ -128,5 +127,5 @@ ax.legend()
 plt.rcParams.update(params)
 fig.set_size_inches(12, 6)
 fig.tight_layout(pad=0.5)
-plt.savefig("files/wave_friction.png", dpi=300)
+# plt.savefig("files/wave_friction.png", dpi=300)
 plt.show()
