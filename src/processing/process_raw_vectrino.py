@@ -7,7 +7,7 @@ from src.utils.project_utils import get_project_root
 from src.utils.vectrino_utils import velocity_decomp, pa_rotation
 
 # location of vectrino .mat files
-filepath = "/Users/ea-gegan/Desktop/Research/Papers/Phase Resolved Shear Stress/data/summer/"
+mat_filepath = "/path/to/mats"
 
 inputs = np.load(os.path.join(get_project_root(), "inputs.npy"), allow_pickle=True).item()
 burstnums = list(range(384))
@@ -64,7 +64,7 @@ zr = np.zeros((len(burstnums),))
 
 for n in burstnums:
     try:
-        vec = sio.loadmat(filepath + "vectrino_" + str(n) + ".mat")
+        vec = sio.loadmat(f"{mat_filepath}/vectrino_{n}.mat")
 
         # Velocity in different directions
         vel_maj, vel_min = vec["velmaj"], vec["velmin"]

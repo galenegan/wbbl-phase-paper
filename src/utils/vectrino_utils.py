@@ -1,6 +1,4 @@
 # Packages
-import copy
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import scipy.signal as sig
@@ -23,7 +21,7 @@ def pa_rotation(u, v, theta):
     return vel_maj, vel_min
 
 
-def velocity_decomp(u, v, w, fs, plot=False):
+def velocity_decomp(u, v, w, fs):
     """A method to decompose the wave velocity from the full velocity
     signal. Based on the Bricker & Monismith phase method, but returns the
     full timeseries via IFFT, rather than the wave stresses via spectral sum.
@@ -36,13 +34,10 @@ def velocity_decomp(u, v, w, fs, plot=False):
     fs: float
       Sampling frequency (Hz)
 
-    plot: bool
-      if True, plots decomposed power spectrum. defaults to False
-
     Returns
     ---------
-    uw: 1d numpy array
-      The wave velocity time series vector
+    u_wave, v_wave, w_wave: Tuple of 1d numpy arrays
+      The wave velocity time series vectors
 
 
     """

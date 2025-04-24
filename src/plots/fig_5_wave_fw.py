@@ -51,6 +51,7 @@ fw_rogers = np.exp(a1 * ab_kb_lin**a2 + a3)
 fw_rogers[ab_kb_lin < 0.0369] = 50
 rogers_error = np.sqrt(np.nanmean((np.exp(a1 * ab_kb[mask] ** a2 + a3) - fw_vec[mask]) ** 2))
 
+
 # %% Jonsson
 def jfunc(fw, ab_kb):
     return 1 / (4 * np.sqrt(fw)) + np.log10(1 / (4 * np.sqrt(fw))) + 0.08 - np.log10(ab_kb)
