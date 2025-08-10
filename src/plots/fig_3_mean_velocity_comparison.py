@@ -41,7 +41,7 @@ dfv = pd.DataFrame(index=z_vec / delta_w_mean, columns=phase_vec, data=u_mean)
 # %% Jonsson data
 phase_j = np.arange(0.0, 350, 15) * np.pi / 180.0 - np.pi
 z_j = np.array([23, 20, 17, 14, 11, 9, 7, 5, 4, 3, 2, 1.5, 1.1, 0.8, 0.6, 0.4, 0.3, 0.2, 0.15, 0.1])
-dfj = pd.read_excel(os.path.join(get_project_root(), "data/jonsson/velocity_test_1.xlsx"), header=None, names=phase_j)
+dfj = pd.read_excel(os.path.join(get_project_root(), "data/jonsson_velocity_test_1.xlsx"), header=None, names=phase_j)
 dfj = dfj.set_index(z_j)
 
 # Normalization and averaging phases
