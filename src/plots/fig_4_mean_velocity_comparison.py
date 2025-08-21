@@ -56,48 +56,20 @@ dfj = dfj / ub
 dfj = dfj[phase_vec]
 
 # %% Plotting
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(12, 12))
+fig, ((ax1, ax2)) = plt.subplots(1, 2, figsize=(12, 7))
 
 for ii in range(u_mean.shape[1]):
     ax1.plot(dfv.values[:, ii], dfv.index, color=colors[ii], linewidth=2)
     ax2.plot(dfj.values[:, ii], dfj.index, color=colors[ii], label=labels[ii], linewidth=2)
 ax1.set_ylim(0, 2.25)
 ax2.set_ylim(0, 2.25)
-ax1.set_xlabel(r"$\tilde{u} u_b^{-1}$")
+ax1.set_xlabel(r"$\tilde{u} u_0^{-1}$")
 ax1.set_ylabel(r"$(z - \delta_c) \delta_w^{-1}$")
 ax1.set_title("(a)")
 ax2.set_title("(b)")
-ax2.set_xlabel(r"$\tilde{u} u_b^{-1}$")
+ax2.set_xlabel(r"$\tilde{u} u_0^{-1}$")
 ax2.set_ylabel(r"$z \delta_w^{-1}$")
-ax2.legend(bbox_to_anchor=(1.01, 1.025))
-
-# %% Averaging over higher ub
-z_vec = data["z"] - 0.004
-idx = data["ubr"] > 0.1
-zidx_tau = (z_vec > -0.0015) & (z_vec < 0.0015)
-
-# Normalization
-u = data["u_wave"] / data["ubr"].reshape(1, -1, 1)
-u_mean = np.nanmean(u[:, idx, :], axis=1)
-N = len(data["ubr"])
-ustar_wave = np.sqrt(np.nanmax(np.nanmean(data["tau_wave_total"][zidx_tau, :, :], axis=0), axis=1) / 1020)
-ustar_mean = np.nanmean(ustar_wave[idx])
-omega_mean = np.nanmean(data["omega"][idx])
-delta_w_mean = ustar_mean / omega_mean
-dfv = pd.DataFrame(index=z_vec / delta_w_mean, columns=phase_vec, data=u_mean)
-
-
-for ii in range(u_mean.shape[1]):
-    ax3.plot(dfv.values[:, ii], dfv.index, color=colors[ii], linewidth=2)
-    ax4.plot(dfj.values[:, ii], dfj.index, color=colors[ii], label=labels[ii], linewidth=2)
-ax3.set_ylim(0, 1)
-ax4.set_ylim(0, 1)
-ax3.set_xlabel(r"$\tilde{u} u_b^{-1}$")
-ax3.set_ylabel(r"$(z - \delta_c) \delta_w^{-1}$")
-ax3.set_title("(c)")
-ax4.set_title("(d)")
-ax4.set_xlabel(r"$\tilde{u} u_b^{-1}$")
-ax4.set_ylabel(r"$z \delta_w^{-1}$")
+ax2.legend(loc="upper right")
 
 fig.tight_layout(pad=0.5)
 plt.savefig("files/ubar_comparison.png", dpi=300)

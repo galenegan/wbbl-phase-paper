@@ -46,7 +46,7 @@ idx_u_max = np.nanargmax(u_hd)
 phase_u_max = phase_hd[idx_u_max]
 idx_tau_max = np.nanargmax(tau_hd)
 delta_phi = phase_u_max - phase_hd[idx_tau_max]
-phase_lag = (delta_phi + np.pi) % (2 * np.pi) - np.pi
+phase_lag = (delta_phi + 180) % 360 - 180
 
 # %% Jonsson data
 ub = 220
@@ -61,15 +61,34 @@ tau_mean_jon = dfs.loc[dfs.index[-1], :] / tau_max
 u_mean_jon_plot = u_mean_jon.values
 tau_mean_jon_plot = tau_mean_jon.values
 
+# phase lag on interpolated data
+f_u = interp1d(phase_j, u_mean_jon_plot, kind="cubic")
+f_tau = interp1d(phase_j, tau_mean_jon_plot, kind="cubic")
+uj_hd = f_u(phase_hd)
+tauj_hd = f_tau(phase_hd)
+idx_uj_max = np.nanargmax(uj_hd)
+phase_uj_max = phase_hd[idx_u_max]
+idx_tauj_max = np.nanargmax(tauj_hd)
+delta_phi_j = phase_uj_max - phase_hd[idx_tauj_max]
+phase_lag_j = (delta_phi_j + 180) % (360) - 180
+
 # %% Plotting
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
 ax1.plot(phase_plot, u_mean_vec_plot, "o", color="0.0")
-ax1.plot(phase_hd, u_hd, "--", linewidth=2, color="0.0")
+ax1.plot(phase_hd, u_hd, "-", linewidth=2, color="0.0")
+ax1.plot(phase_hd[np.argmax(u_hd)], np.max(u_hd),
+         marker='o', markersize=20, markeredgecolor="0.0",
+         markerfacecolor="none", linestyle="-",
+         markeredgewidth=1)
 ax1.set_ylabel(r"$\tilde{u}_p u_b^{-1}$")
 ax1.set_xlabel(r"$\theta$")
 ax12 = ax1.twinx()
 ax12.plot(phase_plot, tau_mean_vec_plot, "o", color="0.6")
-ax12.plot(phase_hd, tau_hd, "--", linewidth=2, color="0.6")
+ax12.plot(phase_hd, tau_hd, "-", linewidth=2, color="0.6")
+ax12.plot(phase_hd[np.argmax(tau_hd)], np.max(tau_hd),
+         marker='o', markersize=20, markeredgecolor="0.6",
+         markerfacecolor="none", linestyle="-",
+         markeredgewidth=1)
 ax12.set_ylabel(r"$\langle \tau_{w,x} \rangle \tau_{wm,x}^{-1}$", color="0.4")
 ax1.set_xticks(phase_plot[::3])
 ax1.set_xticklabels([f"${int(np.round(angle, 0))}^\\circ$" for angle in phase_plot[::3]])
@@ -79,10 +98,20 @@ ax1.grid("y")
 [t.set_color("0.4") for t in ax12.yaxis.get_ticklabels()]
 ax1.set_yticks(np.arange(-1, 1.1, 0.5))
 ax12.set_yticks(np.arange(-1, 1.1, 0.5))
-ax1.set_ylim(-1.2, 1.2)
-ax2.plot(phase_j, u_mean_jon_plot, "-", linewidth=2, color="0.0")
+ax1.set_ylim(-1.25, 1.25)
+ax2.plot(phase_j, u_mean_jon_plot, "o", linewidth=2, color="0.0")
+ax2.plot(phase_hd, uj_hd, "-", linewidth=2, color="0.0")
+ax2.plot(phase_hd[np.argmax(uj_hd)], np.max(uj_hd),
+         marker='o', markersize=20, markeredgecolor="0.0",
+         markerfacecolor="none", linestyle="-",
+         markeredgewidth=1)
 ax22 = ax2.twinx()
-ax22.plot(phase_j, tau_mean_jon_plot, "-", linewidth=2, color="0.6")
+ax22.plot(phase_j, tau_mean_jon_plot, "o", linewidth=2, color="0.6")
+ax22.plot(phase_hd, tauj_hd, "-", linewidth=2, color="0.6")
+ax22.plot(phase_hd[np.argmax(tauj_hd)], np.max(tauj_hd),
+         marker='o', markersize=20, markeredgecolor="0.6",
+         markerfacecolor="none", linestyle="-",
+         markeredgewidth=1)
 ax2.set_ylabel(r"$\tilde{u}_p u_b^{-1}$")
 ax2.set_xlabel(r"$\theta$")
 ax22.set_ylabel(r"$\tau_b \tau_{wm}^{-1}$", color="0.4")
@@ -92,7 +121,7 @@ ax2.set_title("(b)")
 [t.set_color("0.4") for t in ax22.yaxis.get_ticklines()]
 [t.set_color("0.4") for t in ax22.yaxis.get_ticklabels()]
 ax2.set_yticks(np.arange(-1, 1.1, 0.5))
-ax2.set_ylim(-1.2, 1.2)
+ax2.set_ylim(-1.25, 1.25)
 ax22.set_yticks(np.arange(-1, 1.1, 0.5))
 ax2.grid("y")
 fig.tight_layout(pad=1)

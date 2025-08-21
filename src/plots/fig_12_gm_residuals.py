@@ -74,7 +74,7 @@ ax.errorbar(
     linewidth=2.5,
     alpha=0.7,
 )
-ax.set_xlabel(r"$u_b$ (cm/s)")
+ax.set_xlabel(r"$u_0$ (cm/s)")
 ax.set_ylabel(r"$|\boldsymbol{\tau_m}|$ Residual (Pa)")
 fig.tight_layout(pad=0.5)
 plt.savefig("files/gm_residuals.png", dpi=300)
